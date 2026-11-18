@@ -62,7 +62,7 @@ JRemixAudioProcessorEditor::JRemixAudioProcessorEditor (JRemixAudioProcessor& p)
     tracklistDisplay.setColour (juce::TextEditor::textColourId, juce::Colours::white);
     addAndMakeVisible (tracklistDisplay);
 
-    statusLabel.setText ("Listo. Arrastra una carpeta indexada por Ableton (.asd).", juce::dontSendNotification);
+    statusLabel.setText ("Listo. Arrastra una carpeta con tus audios.", juce::dontSendNotification);
     statusLabel.setColour (juce::Label::textColourId, juce::Colours::lightgrey);
     addAndMakeVisible (statusLabel);
 }
@@ -131,7 +131,7 @@ void JRemixAudioProcessorEditor::rebuildPlaylist (bool shuffle) {
                                    + juce::String(secs).paddedLeft('0', 2) + "] ";
         juce::String numStr = juce::String(i + 1).paddedLeft('0', 2) + ". ";
 
-        text += timeStr + numStr + item.track.title + " (" + juce::String(item.track.bpm, 0) + " BPM)\n";
+        text += timeStr + numStr + item.track.title + "\n";
     }
     tracklistDisplay.setText (text);
     statusLabel.setText (juce::String((int) audioProcessor.currentPlaylist.size()) + " tracks seleccionados | Pool total: "
