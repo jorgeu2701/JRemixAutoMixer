@@ -38,10 +38,9 @@ public:
         juce::String output = "JREMIX AUTO-MIXER - TRACKLIST\n====================================\n\n";
         for (size_t i = 0; i < playlist.size(); ++i) {
             int totalSecs = static_cast<int>(playlist[i].startTimeSeconds);
-            output += juce::String::formatted("[%02d:%02d] %02d. %s (%.1f BPM)\n",
-                                              totalSecs / 60, totalSecs % 60, (int)i + 1,
-                                              playlist[i].track.title.toRawUTF8(),
-                                              playlist[i].track.bpm);
+         output += juce::String::formatted("[%02d:%02d] %02d. ", totalSecs / 60, totalSecs % 60, (int)i + 1)
+                     + playlist[i].track.title
+             + juce::String::formatted(" (%.1f BPM)\n", playlist[i].track.bpm);
         }
         return targetFile.replaceWithText(output);
     }
