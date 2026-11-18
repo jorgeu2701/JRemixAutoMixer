@@ -1,0 +1,21 @@
+name: Build VST3 Plugin
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  build_windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download JUCE
+        run: git clone --depth 1 https://github.com/juce-framework/JUCE.git
+      - name: Configure CMake
+        run: cmake -B build -A x64
+      - name: Build VST3
+        run: cmake --build build --config Release --target JRemixAutoMixer_VST3
+      - name: Upload VST3 Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: JRemixAutoMixer-VST3
+          path: build/JRemixAutoMixer_artefacts/Release/VST3/
