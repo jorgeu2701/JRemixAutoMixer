@@ -16,7 +16,8 @@ public:
 
         for (size_t i = 0; i < playlist.size(); ++i) {
             juce::DynamicObject::Ptr tObj = new juce::DynamicObject();
-            juce::String trackLabel = juce::String::formatted("%02d - ", (int)i + 1) + playlist[i].track.title;
+            juce::String numPrefix = (i + 1 < 10 ? "0" : "") + juce::String((int)i + 1) + " - ";
+            juce::String trackLabel = numPrefix + playlist[i].track.title;
             
             tObj->setProperty("name", trackLabel);
             tObj->setProperty("path", playlist[i].track.audioFile.getFullPathName());
@@ -27,7 +28,7 @@ public:
         rootObj->setProperty("tracks", tracksArray);
         juce::String jsonString = juce::JSON::toString(juce::var(rootObj.get()));
 
-        if (orderFile.replaceWithText(jsonString)) {
+        if (orderFile.replaceWithText(jsonString, false, false, "\n")) {
             triggerFile.create();
             return true;
         }
@@ -38,10 +39,15 @@ public:
         juce::String output = "JREMIX AUTO-MIXER - TRACKLIST\n====================================\n\n";
         for (size_t i = 0; i < playlist.size(); ++i) {
             int totalSecs = static_cast<int>(playlist[i].startTimeSeconds);
-         output += juce::String::formatted("[%02d:%02d] %02d. ", totalSecs / 60, totalSecs % 60, (int)i + 1)
-                     + playlist[i].track.title
-             + juce::String::formatted(" (%.1f BPM)\n", playlist[i].track.bpm);
+            int mins = totalSecs / 60;
+            int secs = totalSecs % 60;
+
+            juce::String timeStr = "[" + (mins < 10 ? "0" : "") + juce::String(mins) + ":"
+                                       + (secs < 10 ? "0" : "") + juce::String(secs) + "] ";
+            juce::String numStr = (i + 1 < 10 ? "0" : "") + juce::String((int)i + 1) + ". ";
+
+            output += timeStr + numStr + playlist[i].track.title + " (" + juce::String(playlist[i].track.bpm, 1) + " BPM)\n";
         }
-        return targetFile.replaceWithText(output);
+        return targetFile.replaceWithText(output, false, false, "\n");
     }
 };
