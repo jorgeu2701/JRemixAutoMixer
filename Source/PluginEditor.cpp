@@ -127,9 +127,9 @@ void JRemixAudioProcessorEditor::rebuildPlaylist (bool shuffle) {
         int mins = s / 60;
         int secs = s % 60;
 
-        juce::String timeStr = "[" + (mins < 10 ? "0" : "") + juce::String(mins) + ":"
-                                   + (secs < 10 ? "0" : "") + juce::String(secs) + "] ";
-        juce::String numStr = (i + 1 < 10 ? "0" : "") + juce::String((int)i + 1) + ". ";
+        juce::String timeStr = "[" + juce::String(mins).paddedLeft('0', 2) + ":"
+                                   + juce::String(secs).paddedLeft('0', 2) + "] ";
+        juce::String numStr = juce::String(i + 1).paddedLeft('0', 2) + ". ";
 
         text += timeStr + numStr + item.track.title + " (" + juce::String(item.track.bpm, 0) + " BPM)\n";
     }
