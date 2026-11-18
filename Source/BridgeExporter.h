@@ -16,7 +16,7 @@ public:
 
         for (size_t i = 0; i < playlist.size(); ++i) {
             juce::DynamicObject::Ptr tObj = new juce::DynamicObject();
-            juce::String numPrefix = (i + 1 < 10 ? "0" : "") + juce::String((int)i + 1) + " - ";
+            juce::String numPrefix = juce::String(i + 1).paddedLeft('0', 2) + " - ";
             juce::String trackLabel = numPrefix + playlist[i].track.title;
             
             tObj->setProperty("name", trackLabel);
@@ -42,9 +42,9 @@ public:
             int mins = totalSecs / 60;
             int secs = totalSecs % 60;
 
-            juce::String timeStr = "[" + (mins < 10 ? "0" : "") + juce::String(mins) + ":"
-                                       + (secs < 10 ? "0" : "") + juce::String(secs) + "] ";
-            juce::String numStr = (i + 1 < 10 ? "0" : "") + juce::String((int)i + 1) + ". ";
+            juce::String timeStr = "[" + juce::String(mins).paddedLeft('0', 2) + ":"
+                                       + juce::String(secs).paddedLeft('0', 2) + "] ";
+            juce::String numStr = juce::String(i + 1).paddedLeft('0', 2) + ". ";
 
             output += timeStr + numStr + playlist[i].track.title + " (" + juce::String(playlist[i].track.bpm, 1) + " BPM)\n";
         }
