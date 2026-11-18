@@ -11,7 +11,7 @@ struct ScheduledTrack {
 
 class MixEngine {
 public:
-    double overlapBeats = 16.0; // 16 beats = 8 segundos de solapamiento entre tracks
+    double overlapBeats = 16.0; // 16 beats = 8 segundos de solapamiento a 120 BPM
 
     std::vector<ScheduledTrack> buildMix(std::vector<TrackItem> pool, int targetMinutes, bool shuffle) {
         std::vector<ScheduledTrack> playlist;
@@ -37,7 +37,7 @@ public:
 
             playlist.push_back(scheduled);
 
-            // A 120 BPM base: 1 segundo = 2.0 beats (4 compases de solapamiento = 16 beats = 8 seg)
+            // Base 120 BPM: 1 segundo = 2.0 beats
             double totalBeats = pool[i].durationSeconds * 2.0;
             double effectiveBeats = std::max(16.0, totalBeats - overlapBeats);
             double effectiveSeconds = effectiveBeats / 2.0;
