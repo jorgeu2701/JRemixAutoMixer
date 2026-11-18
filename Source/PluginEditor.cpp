@@ -124,13 +124,17 @@ void JRemixAudioProcessorEditor::rebuildPlaylist (bool shuffle) {
     for (size_t i = 0; i < audioProcessor.currentPlaylist.size(); ++i) {
         const auto& item = audioProcessor.currentPlaylist[i];
         int s = (int) item.startTimeSeconds;
-      text += juce::String::formatted ("[%02d:%02d] %02d. ", s / 60, s % 60, (int) i + 1)
-              + item.track.title
-          + juce::String::formatted (" (%.0f BPM)\n", item.track.bpm);
+        int mins = s / 60;
+        int secs = s % 60;
+
+        juce::String timeStr = "[" + (mins < 10 ? "0" : "") + juce::String(mins) + ":"
+                                   + (secs < 10 ? "0" : "") + juce::String(secs) + "] ";
+        juce::String numStr = (i + 1 < 10 ? "0" : "") + juce::String((int)i + 1) + ". ";
+
+        text += timeStr + numStr + item.track.title + " (" + juce::String(item.track.bpm, 0) + " BPM)\n";
     }
     tracklistDisplay.setText (text);
-    statusLabel.setText (juce::String::formatted ("%d tracks seleccionados | Pool total: %d canciones",
-                                                (int) audioProcessor.currentPlaylist.size(),
-                                                (int) audioProcessor.loadedPool.size()),
+    statusLabel.setText (juce::String((int) audioProcessor.currentPlaylist.size()) + " tracks seleccionados | Pool total: "
+                         + juce::String((int) audioProcessor.loadedPool.size()) + " canciones",
                          juce::dontSendNotification);
 }
