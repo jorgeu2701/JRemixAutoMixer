@@ -2,6 +2,7 @@
 #include "TrackScanner.h"
 #include <random>
 #include <algorithm>
+#include <chrono>
 
 struct ScheduledTrack {
     TrackItem track;
@@ -18,8 +19,10 @@ public:
         if (pool.empty()) return playlist;
 
         if (shuffle) {
-            std::random_device rd;
-            std::mt19937 g(rd());
+            // Semilla real basada en nanosegundos del sistema + entropia nativa de JUCE
+            auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            uint64_t seed = static_cast<uint64_t>(now) ^ static_cast<uint64_t>(juce::Random::getSystemRandom().nextInt64());
+            std::mt19937_64 g(seed);
             std::shuffle(pool.begin(), pool.end(), g);
         }
 
