@@ -124,9 +124,9 @@ void JRemixAudioProcessorEditor::rebuildPlaylist (bool shuffle) {
     for (size_t i = 0; i < audioProcessor.currentPlaylist.size(); ++i) {
         const auto& item = audioProcessor.currentPlaylist[i];
         int s = (int) item.startTimeSeconds;
-        text += juce::String::formatted ("[%02d:%02d] %02d. %s (%.0f BPM)\n",
-                                         s / 60, s % 60, (int) i + 1,
-                                         item.track.title.toRawUTF8(), item.track.bpm);
+      text += juce::String::formatted ("[%02d:%02d] %02d. ", s / 60, s % 60, (int) i + 1)
+              + item.track.title
+          + juce::String::formatted (" (%.0f BPM)\n", item.track.bpm);
     }
     tracklistDisplay.setText (text);
     statusLabel.setText (juce::String::formatted ("%d tracks seleccionados | Pool total: %d canciones",
