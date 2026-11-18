@@ -46,7 +46,7 @@ public:
                                        + juce::String(secs).paddedLeft('0', 2) + "] ";
             juce::String numStr = juce::String(i + 1).paddedLeft('0', 2) + ". ";
 
-            output += timeStr + numStr + playlist[i].track.title + " (" + juce::String(playlist[i].track.bpm, 1) + " BPM)\n";
+            output += timeStr + numStr + playlist[i].track.title + "\n";
         }
         return targetFile.replaceWithText(output, false, false, "\n");
     }
